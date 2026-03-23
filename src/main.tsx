@@ -6,16 +6,11 @@ import { ThemeProvider } from "@mui/material";
 import theme from "./theme/theme.js";
 
 const App = lazy(() => import("./App.jsx"));
-const AddTodoForm = lazy(() => import("./components/AddTodoForm.jsx"));
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/addTodo",
-    element: <AddTodoForm />,
   },
 ]);
 

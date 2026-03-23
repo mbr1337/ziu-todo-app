@@ -1,22 +1,43 @@
-import { Box, Checkbox, Typography, IconButton, Stack, Badge } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Typography,
+  IconButton,
+  Stack,
+  Badge,
+} from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import type { TodoItemProps } from "../types/todo.types";
 import { TodoPriorityEnum } from "../enums/TodoPriority.enum";
 import theme from "../theme/theme";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
-const PRIORITY_COLORS: Record<TodoPriorityEnum, { primary: string; secondary: string; accent: string }> = {
+const PRIORITY_COLORS: Record<
+  TodoPriorityEnum,
+  { primary: string; secondary: string; accent: string; background: string }
+> = {
   [TodoPriorityEnum.PRIORITY_HIGH]: theme.palette.mutedPurple,
   [TodoPriorityEnum.PRIORITY_MEDIUM]: theme.palette.softGreen,
   [TodoPriorityEnum.PRIORITY_LOW]: theme.palette.warmGray,
 };
 
 function TodoItem(todoItemProps: TodoItemProps) {
-  const { todo, onToggle } = todoItemProps;
+  const { todo, onToggle, onEdit, onDelete } = todoItemProps;
   const { id, title, completed, createdAt, priority } = todo;
 
   const colors = priority ? PRIORITY_COLORS[priority] : null;
-  const borderColor = colors ? (completed ? colors.accent : colors.secondary) : theme.palette.background.border;
-  const mainColor = colors ? (completed ? colors.accent : colors.primary) : undefined;
+  const borderColor = colors
+    ? completed
+      ? colors.accent
+      : colors.secondary
+    : theme.palette.background.border;
+  const mainColor = colors
+    ? completed
+      ? colors.accent
+      : colors.primary
+    : undefined;
+  const mainBackground = colors ? colors.background : undefined;
 
   return (
     <Box
@@ -63,11 +84,25 @@ function TodoItem(todoItemProps: TodoItemProps) {
             }}
           />
         </Stack>
-        <Stack direction={"row"} alignItems={"center"} justifyContent={"flex-start"} gap={1}>
-          <CalendarMonthIcon sx={{ color: mainColor }} />
-          <Typography variant="body2" sx={{ color: mainColor }}>
-            {createdAt}
-          </Typography>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          gap={1}>
+          <Box>
+            <CalendarMonthIcon sx={{ color: mainColor }} />
+            <Typography variant="body2" sx={{ color: mainColor }}>
+              {createdAt}
+            </Typography>
+          </Box>
+          <Box sx={{ backgroundColor: mainBackground, borderRadius: 2 }}>
+            <IconButton sx={{ color: mainColor }} onClick={() => onEdit(id, title)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton sx={{ color: mainColor }} onClick={() => onDelete(id)}>
+              <DeleteIcon />
+            </IconButton>
+          </Box>
         </Stack>
       </Stack>
     </Box>
