@@ -1,10 +1,28 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { lazy, StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.scss";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "@mui/material";
+import theme from "./theme/theme.js";
 
-createRoot(document.getElementById('root')!).render(
+const App = lazy(() => import("./App.jsx"));
+const AddTodoForm = lazy(() => import("./components/AddTodoForm.jsx"));
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/addTodo",
+    element: <AddTodoForm />,
+  },
+]);
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  </StrictMode>
+);
