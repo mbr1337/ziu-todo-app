@@ -1,5 +1,5 @@
 export enum TodoPriorityEnum {
-    PRIORITY_HIGH = "high",
-    PRIORITY_MEDIUM = "medium",
-    PRIORITY_LOW = "low",
+    PRIORITY_HIGH = "High",
+    PRIORITY_MEDIUM = "Medium",
+    PRIORITY_LOW = "Low",
 }

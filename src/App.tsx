@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Fade,
   Grid,
   IconButton,
   Slide,
@@ -23,6 +24,7 @@ const SlideUp = forwardRef(function SlideUp(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 import TodoItem from "./components/TodoItem";
 
 import Header from "./components/Header";
@@ -169,7 +171,8 @@ function App() {
     setTodos((prevTodos) => [
       ...prevTodos,
       {
-        id: String(prevTodos.length + 1),
+        // id: String(prevTodos.length + 1),
+        id: crypto.randomUUID(),
         title,
         description,
         dueDate,
@@ -187,6 +190,7 @@ function App() {
         <Header />
         <Search />
         <Filters filtersArray={filters} selectedFilter={selectedFilter} />
+        <Typography variant="h5">Todos: {filteredTodos.length}</Typography>
         <Grid
           container
           spacing={2}
@@ -250,32 +254,11 @@ function App() {
       </Dialog>
 
       <Dialog
-        open={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        slots={{ transition: SlideUp }}
-        disableRestoreFocus
-        maxWidth="xs"
-        fullWidth>
-        <DialogTitle>Are you sure you want to delete this task?</DialogTitle>
-        <DialogActions sx={{ justifyContent: "space-between" }}>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={() => setDeleteModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button color="error" variant="contained" onClick={confirmDelete}>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
         open={editModalOpen}
         onClose={() => setEditModalOpen(false)}
         slots={{ transition: SlideUp }}
         disableRestoreFocus
-        maxWidth="xs"
+        maxWidth="sm"
         fullWidth>
         <DialogTitle>Edit Task</DialogTitle>
         <DialogContent>
@@ -299,6 +282,27 @@ function App() {
           </Button>
           <Button color="primary" variant="contained" onClick={confirmEdit}>
             Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        slots={{ transition: Fade }}
+        disableRestoreFocus
+        maxWidth="sm"
+        fullWidth>
+        <DialogTitle>Are you sure you want to delete this task?</DialogTitle>
+        <DialogActions sx={{ justifyContent: "space-between" }}>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => setDeleteModalOpen(false)}>
+            Cancel
+          </Button>
+          <Button color="error" variant="contained" onClick={confirmDelete}>
+            Delete
           </Button>
         </DialogActions>
       </Dialog>

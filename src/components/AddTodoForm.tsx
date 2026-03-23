@@ -25,9 +25,13 @@ function AddTodoForm({ onClose, onSubmit }: AddTodoFormProps) {
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState<TodoPriorityEnum | "">("");
+  const [titleError, setTitleError] = useState(false);
 
   const handleSave = () => {
-    console.log({ title, description, dueDate, priority });
+    if (!title) {
+      setTitleError(true);
+      return;
+    }
     onSubmit({ title, description, dueDate, priority });
     onClose();
   };
@@ -53,8 +57,12 @@ function AddTodoForm({ onClose, onSubmit }: AddTodoFormProps) {
           variant="outlined"
           fullWidth
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => { setTitle(e.target.value); setTitleError(false); }}
           placeholder="Enter task title"
+          required
+          autoFocus
+          error={titleError}
+          helperText={titleError ? "Task title is required" : ""}
         />
 
         <TextField

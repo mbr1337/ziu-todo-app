@@ -22,6 +22,15 @@ declare module "@mui/material/styles" {
       primaryHover: string;
     };
   }
+  interface TypographyVariants {
+    todoItem: React.CSSProperties;
+  }
+  interface TypographyVariantsOptions {
+    todoItem?: React.CSSProperties;
+  }
+  interface TypographyPropsVariantOverrides {
+    todoItem: true;
+  }
 }
 
 const theme = createTheme({
@@ -59,6 +68,12 @@ const theme = createTheme({
       fontSize: "20px",
       lineHeight: "30px",
     },
+    todoItem: {
+      fontWeight: "bold",
+      fontSize: "14px",
+      lineHeight: "21px",
+    },
+    fontFamily: 'Montserrat'
   },
   components: {
     MuiButton: {

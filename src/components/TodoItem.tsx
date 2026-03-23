@@ -47,6 +47,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
         px: 3,
         border: `1px solid ${borderColor}`,
         borderRadius: 2,
+        transition: "border 0.15s ease-in-out",
       }}>
       <Stack gap={2}>
         <Stack
@@ -60,6 +61,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
               onChange={() => onToggle(id)}
               sx={{
                 color: mainColor,
+                transition: "color 0.15s ease-in-out",
                 "&.Mui-checked": { color: mainColor },
               }}
             />
@@ -68,6 +70,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
               sx={{
                 textDecoration: completed ? "line-through" : "none",
                 color: mainColor,
+                transition: "color 0.15s ease-in-out",
               }}>
               {title}
             </Typography>
@@ -80,6 +83,9 @@ function TodoItem(todoItemProps: TodoItemProps) {
                 color: "#fff",
                 position: "relative",
                 transform: "none",
+                p: 1.75,
+                borderRadius: 50,
+                transition: "background-color 0.15s ease-in-out",
               },
             }}
           />
@@ -89,17 +95,17 @@ function TodoItem(todoItemProps: TodoItemProps) {
           alignItems={"center"}
           justifyContent={"space-between"}
           gap={1}>
-          <Box>
-            <CalendarMonthIcon sx={{ color: mainColor }} />
-            <Typography variant="body2" sx={{ color: mainColor }}>
+          <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
+            <CalendarMonthIcon sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} />
+            <Typography variant="todoItem" sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }}>
               {createdAt}
             </Typography>
           </Box>
           <Box sx={{ backgroundColor: mainBackground, borderRadius: 2 }}>
-            <IconButton sx={{ color: mainColor }} onClick={() => onEdit(id, title)}>
+            <IconButton sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} onClick={() => onEdit(id, title)}>
               <EditIcon />
             </IconButton>
-            <IconButton sx={{ color: mainColor }} onClick={() => onDelete(id)}>
+            <IconButton sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} onClick={() => onDelete(id)}>
               <DeleteIcon />
             </IconButton>
           </Box>
