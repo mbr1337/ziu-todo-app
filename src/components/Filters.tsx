@@ -1,30 +1,31 @@
-import { Box, Button, IconButton, Stack } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, Grid, useMediaQuery } from "@mui/material";
+import theme from "../theme/theme";
 
-function Filters({ filtersArray, selectedFilter }: { filtersArray: any[]; selectedFilter: string }) {
+function Filters({
+  filtersArray,
+  selectedFilter,
+}: {
+  filtersArray: any[];
+  selectedFilter: string;
+}) {
+  const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+  console.log(isMdDown);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
-        justifyContent: "space-between",
-      }}>
-      <Stack direction={"row"} gap={2}>
-        {filtersArray.map((filter: any) => (
+    <Grid container spacing={2} sx={{ width: { md: "auto" } }}>
+      {filtersArray.map((filter: any) => (
+        <Grid
+          size={{ xs: 6, sm: "auto" }}
+          key={filter.id}>
           <Button
             variant="contained"
+            sx={{ width: isMdDown ? "100%" : "auto" }}
             color={selectedFilter === filter.name ? "primary" : "secondary"}
-            key={filter.id}
             onClick={filter.onClick}>
             {filter.name}
           </Button>
-        ))}
-      </Stack>
-      <IconButton>
-        <DeleteIcon />
-      </IconButton>
-    </Box>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
 

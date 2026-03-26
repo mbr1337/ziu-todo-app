@@ -3,7 +3,6 @@ import {
   Button,
   Divider,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
   Stack,
@@ -24,7 +23,7 @@ function AddTodoForm({ onClose, onSubmit }: AddTodoFormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [priority, setPriority] = useState<TodoPriorityEnum | "">("");
+  const [priority, setPriority] = useState<TodoPriorityEnum>(TodoPriorityEnum.PRIORITY_MEDIUM);
   const [titleError, setTitleError] = useState(false);
 
   const handleSave = () => {
@@ -40,7 +39,7 @@ function AddTodoForm({ onClose, onSubmit }: AddTodoFormProps) {
     <Box sx={{ p: 4, minWidth: 480 }}>
       <Stack gap={3}>
         <Box>
-          <Typography variant="h1" sx={{ mb: 0.5 }}>
+          <Typography variant="h1" sx={{ mb: 1.5 }}>
             New Task
           </Typography>
           <Typography
@@ -52,61 +51,65 @@ function AddTodoForm({ onClose, onSubmit }: AddTodoFormProps) {
 
         <Divider />
 
-        <TextField
-          label="Task Title"
-          variant="outlined"
-          fullWidth
-          value={title}
-          onChange={(e) => { setTitle(e.target.value); setTitleError(false); }}
-          placeholder="Enter task title"
-          required
-          autoFocus
-          error={titleError}
-          helperText={titleError ? "Task title is required" : ""}
-        />
+        <Box>
+          <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 500 }}>Task Title</Typography>
+          <TextField
+            variant="outlined"
+            fullWidth
+            value={title}
+            onChange={(e) => { setTitle(e.target.value); setTitleError(false); }}
+            placeholder="Enter task title"
+            required
+            autoFocus
+            error={titleError}
+            helperText={titleError ? "Task title is required" : ""}
+          />
+        </Box>
 
-        <TextField
-          label="Description"
-          variant="outlined"
-          fullWidth
-          multiline
-          rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Enter task description"
-        />
+        <Box>
+          <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 500 }}>Description</Typography>
+          <TextField
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={3}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter task description"
+          />
+        </Box>
 
-        <TextField
-          label="Due Date"
-          type="date"
-          variant="outlined"
-          fullWidth
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          slotProps={{
-            inputLabel: { shrink: true },
-          }}
-        />
+        <Box>
+          <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 500 }}>Due Date</Typography>
+          <TextField
+            type="date"
+            variant="outlined"
+            fullWidth
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+        </Box>
 
-        <FormControl fullWidth variant="outlined">
-          <InputLabel>Priority</InputLabel>
-          <Select
-            label="Priority"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value as TodoPriorityEnum)}>
-            <MenuItem value={TodoPriorityEnum.PRIORITY_HIGH}>High</MenuItem>
-            <MenuItem value={TodoPriorityEnum.PRIORITY_MEDIUM}>Medium</MenuItem>
-            <MenuItem value={TodoPriorityEnum.PRIORITY_LOW}>Low</MenuItem>
-          </Select>
-        </FormControl>
+        <Box>
+          <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 500 }}>Priority</Typography>
+          <FormControl fullWidth variant="outlined">
+            <Select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value as TodoPriorityEnum)}>
+              <MenuItem value={TodoPriorityEnum.PRIORITY_HIGH}>High</MenuItem>
+              <MenuItem value={TodoPriorityEnum.PRIORITY_MEDIUM}>Medium</MenuItem>
+              <MenuItem value={TodoPriorityEnum.PRIORITY_LOW}>Low</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
 
         <Divider />
 
         <Stack direction="row" justifyContent="space-between">
-          <Button variant="contained" color="secondary" onClick={onClose}>
+          <Button variant="contained" color="secondary" onClick={onClose} sx={{ px: 4, py: 1 }}>
             Cancel
           </Button>
-          <Button variant="contained" color="primary" onClick={handleSave}>
+          <Button variant="contained" color="primary" onClick={handleSave} sx={{ px: 4, py: 1 }}>
             Save Task
           </Button>
         </Stack>

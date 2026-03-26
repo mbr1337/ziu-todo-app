@@ -9,19 +9,56 @@ declare module "@mui/material/Typography" {
 declare module "@mui/material/styles" {
   interface TypeBackground {
     border: string;
+    borderHover: string;
+    searchBackground: string;
   }
 
   interface Palette {
-    mutedPurple: { primary: string; secondary: string; accent: string, background: string };
-    softGreen: { primary: string; secondary: string; accent: string, background: string };
-    warmGray: { primary: string; secondary: string; accent: string, background: string };
-    blackAndWhite: { primary: string; secondary: string; primaryHover: string, background: string };
+    mutedPurple: {
+      primary: string;
+      secondary: string;
+      accent: string;
+      background: string;
+    };
+    softGreen: {
+      primary: string;
+      secondary: string;
+      accent: string;
+      background: string;
+    };
+    warmGray: {
+      primary: string;
+      secondary: string;
+      accent: string;
+      background: string;
+    };
+    blackAndWhite: {
+      primary: string;
+      secondary: string;
+      primaryHover: string;
+      background: string;
+    };
   }
 
   interface PaletteOptions {
-    mutedPurple?: { primary: string; secondary: string; accent: string, background: string };
-    softGreen?: { primary: string; secondary: string; accent: string, background: string };
-    warmGray?: { primary: string; secondary: string; accent: string, background: string };
+    mutedPurple?: {
+      primary: string;
+      secondary: string;
+      accent: string;
+      background: string;
+    };
+    softGreen?: {
+      primary: string;
+      secondary: string;
+      accent: string;
+      background: string;
+    };
+    warmGray?: {
+      primary: string;
+      secondary: string;
+      accent: string;
+      background: string;
+    };
     blackAndWhite?: {
       primary: string;
       secondary: string;
@@ -39,34 +76,53 @@ declare module "@mui/material/styles" {
   }
 }
 
+const colors = {
+  background: {
+    border: "#E5E5E5",
+    borderHover: "#C4C4C4",
+    searchBackground: "#F5F5F5",
+  },
+  mutedPurple: {
+    primary: "#553C9A",
+    secondary: "#7C3AED",
+    accent: "#C4B5FD",
+    background: "#FAF5FF",
+  },
+  softGreen: {
+    primary: "#2F855A",
+    secondary: "#48BB78",
+    accent: "#9AE6B4",
+    background: "#F0FFF4",
+  },
+  warmGray: {
+    primary: "#4A5568",
+    secondary: "#A0AEC0",
+    accent: "#E2E8F0",
+    background: "#F7FAFC",
+  },
+  blackAndWhite: {
+    primary: "#000000",
+    secondary: "#FFFFFF",
+    primaryHover: "#222222",
+  },
+  button: {
+    secondaryBase: "#F5F5F5",
+    secondaryText: "#666666",
+    secondaryHover: "#E2E2E2",
+  },
+};
+
 const theme = createTheme({
   palette: {
     background: {
-      border: "#E5E5E5",
+      border: colors.background.border,
+      borderHover: colors.background.borderHover,
+      searchBackground: colors.background.searchBackground,
     },
-    mutedPurple: {
-      primary: "#553C9A",
-      secondary: "#7C3AED",
-      accent: "#C4B5FD",
-      background: "#FAF5FF",
-    },
-    softGreen: {
-      primary: "#2F855A",
-      secondary: "#48BB78",
-      accent: "#9AE6B4",
-      background: "#F0FFF4",
-    },
-    warmGray: {
-      primary: "#4A5568",
-      secondary: "#A0AEC0",
-      accent: "#E2E8F0",
-      background: "#F7FAFC",
-    },
-    blackAndWhite: {
-      primary: "#000000",
-      secondary: "#FFFFFF",
-      primaryHover: "#222222",
-    },
+    mutedPurple: colors.mutedPurple,
+    softGreen: colors.softGreen,
+    warmGray: colors.warmGray,
+    blackAndWhite: colors.blackAndWhite,
   },
   typography: {
     h1: {
@@ -79,14 +135,14 @@ const theme = createTheme({
       fontSize: "14px",
       lineHeight: "21px",
     },
-    fontFamily: 'Montserrat'
+    fontFamily: "Montserrat",
   },
   components: {
     MuiButton: {
       styleOverrides: {
         containedPrimary: {
-          backgroundColor: "#000000",
-          color: "#FFFFFF",
+          backgroundColor: colors.blackAndWhite.primary,
+          color: colors.blackAndWhite.secondary,
           paddingLeft: 8,
           paddingRight: 8,
           paddingTop: 8,
@@ -98,13 +154,13 @@ const theme = createTheme({
           boxShadow: "none",
           lineHeight: 1.75,
           "&:hover": {
-            backgroundColor: "#222222",
+            backgroundColor: colors.blackAndWhite.primaryHover,
             boxShadow: "none",
           },
         },
         containedSecondary: {
-          backgroundColor: "#F5F5F5",
-          color: "#666666",
+          backgroundColor: colors.button.secondaryBase,
+          color: colors.button.secondaryText,
           paddingLeft: 8,
           paddingRight: 8,
           paddingTop: 8,
@@ -116,7 +172,7 @@ const theme = createTheme({
           boxShadow: "none",
           lineHeight: 1.75,
           "&:hover": {
-            backgroundColor: "#E2E2E2",
+            backgroundColor: colors.button.secondaryHover,
             boxShadow: "none",
           },
         },

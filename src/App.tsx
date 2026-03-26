@@ -18,11 +18,36 @@ import {
 import type { TransitionProps } from "@mui/material/transitions";
 import { forwardRef, useState } from "react";
 
+const CustomFade = forwardRef(function CustomFade(
+  props: TransitionProps & { children: React.ReactElement },
+  ref: React.Ref<unknown>
+) {
+  return (
+    <Fade
+      ref={ref}
+      {...props}
+      timeout={{ enter: 450, exit: 250 }}
+      easing={{ enter: "cubic-bezier(0.22, 1, 0.36, 1)" }}
+    />
+  );
+});
+
 const SlideUp = forwardRef(function SlideUp(
   props: TransitionProps & { children: React.ReactElement },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return (
+    <Slide
+      direction="up"
+      ref={ref}
+      {...props}
+      timeout={{ enter: 400, exit: 150 }}
+      easing={{
+        enter: "cubic-bezier(0.22, 1, 0.36, 1)",
+        exit: "cubic-bezier(0.55, 0, 1, 0.45)",
+      }}
+    />
+  );
 });
 
 import TodoItem from "./components/TodoItem";
@@ -198,7 +223,7 @@ function App() {
           container
           spacing={2}
           sx={{
-            border: `1px solid ${theme.palette.background.border}`,
+            border: `2px solid ${theme.palette.background.border}`,
             borderRadius: "12px",
             py: 13,
             px: 3,
@@ -207,7 +232,7 @@ function App() {
           <AnimatePresence>
             {filteredTodos.map((todo) => (
               <MotionGridItem
-                size={{ xs: 12, md: 8, lg: 4 }}
+                size={{ xs: 12, sm: 6, lg: 4 }}
                 key={todo.id}
                 initial={{ opacity: 0, y: -12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -298,7 +323,7 @@ function App() {
       <Dialog
         open={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
-        slots={{ transition: Fade }}
+        slots={{ transition: CustomFade }}
         disableRestoreFocus
         maxWidth="sm"
         fullWidth>
@@ -307,10 +332,15 @@ function App() {
           <Button
             color="secondary"
             variant="contained"
+            sx={{ px: 4, py: 1, borderRadius: 1.5 }}
             onClick={() => setDeleteModalOpen(false)}>
             Cancel
           </Button>
-          <Button color="error" variant="contained" onClick={confirmDelete}>
+          <Button
+            color="error"
+            variant="contained"
+            sx={{ px: 4, py: 1, borderRadius: 1.5 }}
+            onClick={confirmDelete}>
             Delete
           </Button>
         </DialogActions>

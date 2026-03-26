@@ -49,7 +49,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
         borderRadius: 2,
         transition: "border 0.15s ease-in-out",
       }}>
-      <Stack gap={2}>
+      <Stack gap={1}>
         <Stack
           direction={"row"}
           alignItems={"center"}
