@@ -36,6 +36,9 @@ import { TodoPriorityEnum } from "./enums/TodoPriority.enum";
 import AddIcon from "@mui/icons-material/Add";
 import { SearchFiltersEnum } from "./enums/SearchFilters.enum";
 import type { NewTodoData } from "./types/todo.types";
+import { motion, AnimatePresence } from "framer-motion";
+
+const MotionGridItem = motion.create(Grid);
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -201,9 +204,15 @@ function App() {
             px: 3,
             minHeight: "400px",
           }}>
-          {filteredTodos.map((todo) => {
-            return (
-              <Grid size={{ xs: 12, md: 8, lg: 4 }} key={todo.id}>
+          <AnimatePresence>
+            {filteredTodos.map((todo) => (
+              <MotionGridItem
+                size={{ xs: 12, md: 8, lg: 4 }}
+                key={todo.id}
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, x: 48 }}
+                transition={{ duration: 0.3 }}>
                 <TodoItem
                   key={todo.id + todo.title}
                   todo={todo}
@@ -211,9 +220,9 @@ function App() {
                   onDelete={onDelete}
                   onEdit={onEdit}
                 />
-              </Grid>
-            );
-          })}
+              </MotionGridItem>
+            ))}
+          </AnimatePresence>
         </Grid>
         <Stack
           direction={"row"}

@@ -97,7 +97,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
           gap={1}>
           <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
             <CalendarMonthIcon sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} />
-            <Typography variant="todoItem" sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }}>
+            <Typography variant={"todoItem"} sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }}>
               {createdAt}
             </Typography>
           </Box>

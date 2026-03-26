@@ -1,5 +1,11 @@
 import { createTheme } from "@mui/material";
 
+declare module "@mui/material/Typography" {
+  interface TypographyPropsVariantOverrides {
+    todoItem: true;
+  }
+}
+
 declare module "@mui/material/styles" {
   interface TypeBackground {
     border: string;
