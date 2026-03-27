@@ -52,7 +52,6 @@ const SlideUp = forwardRef(function SlideUp(
 
 import TodoItem from "./components/TodoItem";
 
-import Header from "./components/Header";
 import Filters from "./components/Filters";
 import Search from "./components/Search";
 import AddTodoForm from "./components/AddTodoForm";
@@ -62,6 +61,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { SearchFiltersEnum } from "./enums/SearchFilters.enum";
 import type { NewTodoData } from "./types/todo.types";
 import { motion, AnimatePresence } from "framer-motion";
+import DashboardLayout from "./components/dashboard/DashboardLayout";
 
 const MotionGridItem = motion.create(Grid);
 
@@ -215,7 +215,7 @@ function App() {
   return (
     <Container maxWidth={"lg"}>
       <Stack gap={4} mt={4}>
-        <Header />
+        <DashboardLayout />
         <Search />
         <Filters filtersArray={filters} selectedFilter={selectedFilter} />
         <Typography variant="h5">Todos: {filteredTodos.length}</Typography>
@@ -230,6 +230,13 @@ function App() {
             minHeight: "400px",
           }}>
           <AnimatePresence>
+            {todos.length === 0 && (
+              <MotionGridItem size={{ xs: 12 }}>
+              <Typography color="text.secondary" textAlign="center" sx={{ mt: 4 }}>
+                Brak zadań. Dodaj pierwsze!
+              </Typography>
+              </MotionGridItem>
+            )}
             {filteredTodos.map((todo) => (
               <MotionGridItem
                 size={{ xs: 12, sm: 6, lg: 4 }}
