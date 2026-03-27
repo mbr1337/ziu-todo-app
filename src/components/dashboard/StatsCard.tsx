@@ -1,14 +1,5 @@
-import type { SvgIconComponent } from "@mui/icons-material";
 import { Avatar, Box, Card, CardContent, Typography } from "@mui/material";
-import React from "react";
-
-interface StatsCardProps {
-  title: string;
-  value: number;
-  icon: SvgIconComponent;
-  color: string;
-  bgColor: string;
-}
+import type { StatsCardProps } from "../../interfaces/dashboard.interfaces";
 
 export default function StatsCard({
   title,

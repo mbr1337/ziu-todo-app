@@ -51,21 +51,23 @@ const SlideUp = forwardRef(function SlideUp(
 });
 
 import TodoItem from "./components/TodoItem";
-
 import Filters from "./components/Filters";
 import Search from "./components/Search";
 import AddTodoForm from "./components/AddTodoForm";
 import theme from "./theme/theme";
-import { TodoPriorityEnum } from "./enums/TodoPriority.enum";
-import AddIcon from "@mui/icons-material/Add";
 import { SearchFiltersEnum } from "./enums/SearchFilters.enum";
-import type { NewTodoData } from "./types/todo.types";
+import type { NewTodoData } from "./interfaces/todo.interfaces";
+import AddIcon from "@mui/icons-material/Add";
 import { motion, AnimatePresence } from "framer-motion";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
+import { useTodoContext } from "./context/TodoContext";
 
 const MotionGridItem = motion.create(Grid);
 
 function App() {
+  const { state, actions } = useTodoContext();
+  const { todos } = state;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
@@ -75,49 +77,8 @@ function App() {
     title: string;
   } | null>(null);
   const [editTitle, setEditTitle] = useState("");
-  const [todos, setTodos] = useState([
-    {
-      id: "1",
-      title: "Todo 1",
-      completed: false,
-      createdAt: new Date().toLocaleDateString(),
-      priority: TodoPriorityEnum.PRIORITY_HIGH,
-    },
-    {
-      id: "2",
-      title: "Todo 2",
-      completed: false,
-      createdAt: new Date().toLocaleDateString(),
-      priority: TodoPriorityEnum.PRIORITY_MEDIUM,
-    },
-    {
-      id: "3",
-      title: "Todo 3",
-      completed: true,
-      createdAt: new Date().toLocaleDateString(),
-      priority: TodoPriorityEnum.PRIORITY_LOW,
-    },
-    {
-      id: "4",
-      title: "Todo 4",
-      completed: false,
-      createdAt: new Date().toLocaleDateString(),
-    },
-  ]);
 
-  const onToggle = (id: string) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) => {
-        if (todo.id !== id) {
-          return todo;
-        }
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
-      })
-    );
-  };
+  const onToggle = (id: string) => actions.toggleTodo(id);
 
   const onEdit = (id: string, title: string) => {
     setEditingTodo({ id, title });
@@ -127,11 +88,7 @@ function App() {
 
   const confirmEdit = () => {
     if (editingTodo) {
-      setTodos((prevTodos) =>
-        prevTodos.map((todo) =>
-          todo.id === editingTodo.id ? { ...todo, title: editTitle } : todo
-        )
-      );
+      actions.editTodo(editingTodo.id, editTitle);
     }
     setEditModalOpen(false);
     setEditingTodo(null);
@@ -144,9 +101,7 @@ function App() {
 
   const confirmDelete = () => {
     if (pendingDeleteId) {
-      setTodos((prevTodos) =>
-        prevTodos.filter((todo) => todo.id !== pendingDeleteId)
-      );
+      actions.deleteTodo(pendingDeleteId);
       setPendingDeleteId(null);
     }
     setDeleteModalOpen(false);
@@ -155,10 +110,6 @@ function App() {
   const [selectedFilter, setSelectedFilter] = useState<SearchFiltersEnum>(
     SearchFiltersEnum.ALL
   );
-
-  const addNewPost = () => {
-    setIsModalOpen(true);
-  };
 
   const filters = [
     {
@@ -190,25 +141,8 @@ function App() {
     return true;
   });
 
-  const updateTodos = ({
-    title,
-    description,
-    dueDate,
-    priority,
-  }: NewTodoData) => {
-    setTodos((prevTodos) => [
-      ...prevTodos,
-      {
-        // id: String(prevTodos.length + 1),
-        id: crypto.randomUUID(),
-        title,
-        description,
-        dueDate,
-        priority: priority || undefined,
-        completed: false,
-        createdAt: new Date().toLocaleDateString(),
-      },
-    ]);
+  const updateTodos = (data: NewTodoData) => {
+    actions.addTodo(data);
     setIsModalOpen(false);
   };
 
@@ -232,9 +166,12 @@ function App() {
           <AnimatePresence>
             {todos.length === 0 && (
               <MotionGridItem size={{ xs: 12 }}>
-              <Typography color="text.secondary" textAlign="center" sx={{ mt: 4 }}>
-                Brak zadań. Dodaj pierwsze!
-              </Typography>
+                <Typography
+                  color="text.secondary"
+                  textAlign="center"
+                  sx={{ mt: 4 }}>
+                  Brak zadań. Dodaj pierwsze!
+                </Typography>
               </MotionGridItem>
             )}
             {filteredTodos.map((todo) => (
@@ -260,7 +197,7 @@ function App() {
           direction={"row"}
           justifyContent={"center"}
           alignItems={"center"}
-          onClick={addNewPost}
+          onClick={() => setIsModalOpen(true)}
           sx={{
             backgroundColor: theme.palette.blackAndWhite.primary,
             color: theme.palette.blackAndWhite.secondary,

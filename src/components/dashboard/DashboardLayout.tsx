@@ -1,30 +1,29 @@
-import { Stack } from "@mui/material";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import { Box, Stack } from "@mui/material";
 import { useState } from "react";
-import StatsCard from "./StatsCard";
+import Sidebar from "./Sidebar";
+import AppHeader from "./AppHeader";
+import StatsGrid from "./StatsGrid";
 
 function DashboardLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
   return (
-    <>
+    <Box>
       <Stack
-        direction={"row"}
-        justifyContent={"flex-start"}
-        alignItems={"center"}
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="center"
         spacing={2}
-        useFlexGap
-      >
+        useFlexGap>
         <Sidebar drawerOpen={drawerOpen} toggleDrawer={toggleDrawer} />
-        <Header />
+        <AppHeader />
       </Stack>
-      {/* <StatsCard /> */}
-    </>
+      <Box sx={{ mt: 3 }}>
+        <StatsGrid />
+      </Box>
+    </Box>
   );
 }
 

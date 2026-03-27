@@ -25,14 +25,9 @@ const navItems = [
   { label: "Ustawienia", icon: SettingsIcon, path: "/settings" },
 ];
 
-type HeaderProps = {
-  toggleDrawer: () => void;
-};
+import type { SidebarProps } from "../../interfaces/dashboard.interfaces";
 
-function Sidebar({
-  drawerOpen,
-  toggleDrawer,
-}: { drawerOpen: boolean } & HeaderProps) {
+function Sidebar({ drawerOpen, toggleDrawer }: SidebarProps) {
   return (
     <>
       <IconButton onClick={toggleDrawer}>
@@ -48,8 +43,7 @@ function Sidebar({
             width: DRAWER_WIDTH,
             boxSizing: "border-box",
           },
-        }}
-      >
+        }}>
         <Toolbar>
           <Logo />
         </Toolbar>
@@ -67,8 +61,7 @@ function Sidebar({
                   bgcolor: "rgba(255,255,255,0.2)",
                   color: "white",
                 },
-              }}
-            >
+              }}>
               <ListItemIcon>{item.icon && <item.icon />}</ListItemIcon>
               <ListItemText primary={item.label} />
             </ListItemButton>

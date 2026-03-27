@@ -11,13 +11,8 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { TodoPriorityEnum } from "../enums/TodoPriority.enum";
-import type { NewTodoData } from "../types/todo.types";
+import type { AddTodoFormProps } from "../interfaces/todo.interfaces";
 import theme from "../theme/theme";
-
-interface AddTodoFormProps {
-  onClose: () => void;
-  onSubmit: (data: NewTodoData) => void;
-}
 
 function AddTodoForm({ onClose, onSubmit }: AddTodoFormProps) {
   const [title, setTitle] = useState("");

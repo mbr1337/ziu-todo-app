@@ -7,7 +7,7 @@ import {
   Badge,
 } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import type { TodoItemProps } from "../types/todo.types";
+import type { TodoItemProps } from "../interfaces/todo.interfaces";
 import { TodoPriorityEnum } from "../enums/TodoPriority.enum";
 import theme from "../theme/theme";
 import DeleteIcon from "@mui/icons-material/Delete";
