@@ -19,3 +19,56 @@ body {
   text-rendering: optimizeLegibility;
 
 }
+
+@media print {
+  .MuiDrawer-root,
+  .MuiDrawer-paper,
+  .MuiAppBar-root,
+  .MuiDialog-root,
+  .MuiModal-root {
+    display: none !important;
+  }
+
+  // Reset layout: remove sidebar offset so content fills the page
+  body,
+  #root {
+    display: block !important;
+  }
+
+  main,
+  .MuiContainer-root {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  // Remove flex layout from DashboardLayout wrapper
+  .MuiBox-root[style*="display: flex"] {
+    display: block !important;
+  }
+
+  // Prevent todo cards and stats cards from splitting across pages
+  .MuiCard-root,
+  .MuiPaper-root {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  // Prevent grid items from splitting across pages
+  .MuiGrid-item {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  // Add a page break before the todo list so stats stay on page 1
+  .MuiGrid-container:last-of-type {
+    page-break-before: auto;
+  }
+
+  // Ensure colors print (browsers may suppress backgrounds by default)
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
