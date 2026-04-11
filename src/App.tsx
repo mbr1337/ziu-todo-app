@@ -9,7 +9,6 @@ import {
   DialogTitle,
   Fade,
   Grid,
-  IconButton,
   Slide,
   Stack,
   TextField,
@@ -147,148 +146,150 @@ function App() {
   };
 
   return (
-    <Container maxWidth={"lg"}>
-      <Stack gap={4} mt={4}>
-        <DashboardLayout />
-        <Search />
-        <Filters filtersArray={filters} selectedFilter={selectedFilter} />
-        <Typography variant="h5">Todos: {filteredTodos.length}</Typography>
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            border: `2px solid ${theme.palette.background.border}`,
-            borderRadius: "12px",
-            py: 13,
-            px: 3,
-            minHeight: "400px",
-          }}>
-          <AnimatePresence>
-            {todos.length === 0 && (
-              <MotionGridItem size={{ xs: 12 }}>
-                <Typography
-                  color="text.secondary"
-                  textAlign="center"
-                  sx={{ mt: 4 }}>
-                  Brak zadań. Dodaj pierwsze!
-                </Typography>
-              </MotionGridItem>
-            )}
-            {filteredTodos.map((todo) => (
-              <MotionGridItem
-                size={{ xs: 12, sm: 6, lg: 4 }}
-                key={todo.id}
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, x: 48 }}
-                transition={{ duration: 0.3 }}>
-                <TodoItem
-                  key={todo.id + todo.title}
-                  todo={todo}
-                  onToggle={onToggle}
-                  onDelete={onDelete}
-                  onEdit={onEdit}
-                />
-              </MotionGridItem>
-            ))}
-          </AnimatePresence>
-        </Grid>
-        <Stack
-          direction={"row"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          onClick={() => setIsModalOpen(true)}
-          sx={{
-            backgroundColor: theme.palette.blackAndWhite.primary,
-            color: theme.palette.blackAndWhite.secondary,
-            borderRadius: "28px",
-            mx: "auto",
-            px: 2,
-            py: 1,
-            cursor: "pointer",
-            transition: "background-color 0.3s ease-in-out",
-            "&:hover": {
-              backgroundColor: theme.palette.blackAndWhite.primaryHover,
-            },
-          }}
-          role="button">
-          <IconButton sx={{ color: theme.palette.blackAndWhite.secondary }}>
-            <AddIcon />
-          </IconButton>
-          <Typography variant="body1">Add New Post</Typography>
+    <Container maxWidth={"lg"} sx={{ py: 2 }} component={"main"}>
+      <DashboardLayout>
+        <Stack gap={4} mt={4}>
+          <Search />
+          <Filters filtersArray={filters} selectedFilter={selectedFilter} />
+          <Typography variant="h5">Todos: {filteredTodos.length}</Typography>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              border: `2px solid ${theme.palette.background.border}`,
+              borderRadius: "12px",
+              py: 13,
+              px: 3,
+              minHeight: "400px",
+            }}>
+            <AnimatePresence>
+              {todos.length === 0 && (
+                <MotionGridItem size={{ xs: 12 }}>
+                  <Typography
+                    color="text.secondary"
+                    textAlign="center"
+                    sx={{ mt: 4 }}>
+                    Brak zadań. Dodaj pierwsze!
+                  </Typography>
+                </MotionGridItem>
+              )}
+              {filteredTodos.map((todo) => (
+                <MotionGridItem
+                  size={{ xs: 12, sm: 6, lg: 4 }}
+                  key={todo.id}
+                  initial={{ opacity: 0, y: -12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: 48 }}
+                  transition={{ duration: 0.3 }}>
+                  <TodoItem
+                    key={todo.id + todo.title}
+                    todo={todo}
+                    onToggle={onToggle}
+                    onDelete={onDelete}
+                    onEdit={onEdit}
+                  />
+                </MotionGridItem>
+              ))}
+            </AnimatePresence>
+          </Grid>
+          <Stack
+            direction={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            onClick={() => setIsModalOpen(true)}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setIsModalOpen(true)}
+            tabIndex={0}
+            aria-label="Add new task"
+            sx={{
+              backgroundColor: theme.palette.blackAndWhite.primary,
+              color: theme.palette.blackAndWhite.secondary,
+              borderRadius: "28px",
+              mx: "auto",
+              px: 2,
+              py: 1,
+              cursor: "pointer",
+              transition: "background-color 0.3s ease-in-out",
+              "&:hover": {
+                backgroundColor: theme.palette.blackAndWhite.primaryHover,
+              },
+            }}
+            role="button">
+            <AddIcon aria-hidden sx={{ color: theme.palette.blackAndWhite.secondary, mr: 0.5 }} />
+            <Typography variant="body1">Add New Post</Typography>
+          </Stack>
         </Stack>
-      </Stack>
 
-      <Dialog
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        slots={{ transition: SlideUp }}
-        maxWidth="sm"
-        fullWidth>
-        <AddTodoForm
+        <Dialog
+          open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onSubmit={updateTodos}
-        />
-      </Dialog>
+          slots={{ transition: SlideUp }}
+          maxWidth="sm"
+          fullWidth>
+          <AddTodoForm
+            onClose={() => setIsModalOpen(false)}
+            onSubmit={updateTodos}
+          />
+        </Dialog>
 
-      <Dialog
-        open={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        slots={{ transition: SlideUp }}
-        disableRestoreFocus
-        maxWidth="sm"
-        fullWidth>
-        <DialogTitle>Edit Task</DialogTitle>
-        <DialogContent>
-          <Box sx={{ pt: 1 }}>
-            <TextField
-              label="Title"
-              variant="outlined"
-              fullWidth
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              autoFocus
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: "space-between", px: 3, pb: 3 }}>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={() => setEditModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button color="primary" variant="contained" onClick={confirmEdit}>
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog
+          open={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          slots={{ transition: SlideUp }}
+          disableRestoreFocus
+          maxWidth="sm"
+          fullWidth>
+          <DialogTitle>Edit Task</DialogTitle>
+          <DialogContent>
+            <Box sx={{ pt: 1 }}>
+              <TextField
+                label="Title"
+                variant="outlined"
+                fullWidth
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                autoFocus
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: "space-between", px: 3, pb: 3 }}>
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={() => setEditModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button color="primary" variant="contained" onClick={confirmEdit}>
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      <Dialog
-        open={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        slots={{ transition: CustomFade }}
-        disableRestoreFocus
-        maxWidth="sm"
-        fullWidth>
-        <DialogTitle>Are you sure you want to delete this task?</DialogTitle>
-        <DialogActions sx={{ justifyContent: "space-between" }}>
-          <Button
-            color="secondary"
-            variant="contained"
-            sx={{ px: 4, py: 1, borderRadius: 1.5 }}
-            onClick={() => setDeleteModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button
-            color="error"
-            variant="contained"
-            sx={{ px: 4, py: 1, borderRadius: 1.5 }}
-            onClick={confirmDelete}>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog
+          open={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          slots={{ transition: CustomFade }}
+          disableRestoreFocus
+          maxWidth="sm"
+          fullWidth>
+          <DialogTitle>Are you sure you want to delete this task?</DialogTitle>
+          <DialogActions sx={{ justifyContent: "space-between" }}>
+            <Button
+              color="secondary"
+              variant="contained"
+              sx={{ px: 4, py: 1, borderRadius: 1.5 }}
+              onClick={() => setDeleteModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              color="error"
+              variant="contained"
+              sx={{ px: 4, py: 1, borderRadius: 1.5 }}
+              onClick={confirmDelete}>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </DashboardLayout>
     </Container>
   );
 }

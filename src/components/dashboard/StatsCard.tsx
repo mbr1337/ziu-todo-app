@@ -9,8 +9,8 @@ export default function StatsCard({
   bgColor,
 }: StatsCardProps) {
   return (
-    <Card>
-      <CardContent>
+    <Card sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <CardContent sx={{ flexGrow: 1 }}>
         <Box
           sx={{
             display: "flex",

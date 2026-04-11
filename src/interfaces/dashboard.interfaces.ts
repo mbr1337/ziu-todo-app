@@ -9,12 +9,6 @@ export interface StatsCardProps {
 }
 
 export interface SidebarProps {
-  drawerOpen: boolean;
-  toggleDrawer: () => void;
-}
-
-export interface NavItem {
-  label: string;
-  icon: SvgIconComponent;
-  path: string;
+  drawerOpen?: boolean;
+  toggleDrawer?: () => void;
 }

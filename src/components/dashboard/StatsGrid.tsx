@@ -14,7 +14,7 @@ export default function StatsGrid() {
 
   return (
     <Grid container spacing={3}>
-      <Grid size={{ xs: 12, sm: 4 }}>
+      <Grid size={{ xs: 12, sm: 4 }} sx={{ display: "flex" }}>
         <StatsCard
           title="Wszystkie zadania"
           value={total}
@@ -23,7 +23,7 @@ export default function StatsGrid() {
           bgColor="#E3F2FD"
         />
       </Grid>
-      <Grid size={{ xs: 12, sm: 4 }}>
+      <Grid size={{ xs: 12, sm: 4 }} sx={{ display: "flex" }}>
         <StatsCard
           title="Ukończone"
           value={completed}
@@ -32,7 +32,7 @@ export default function StatsGrid() {
           bgColor="#E8F5E9"
         />
       </Grid>
-      <Grid size={{ xs: 12, sm: 4 }}>
+      <Grid size={{ xs: 12, sm: 4 }} sx={{ display: "flex" }}>
         <StatsCard
           title="Oczekujące"
           value={pending}

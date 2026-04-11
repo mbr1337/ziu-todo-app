@@ -127,12 +127,12 @@ const theme = createTheme({
   typography: {
     h1: {
       fontWeight: 600,
-      fontSize: "20px",
+      fontSize: "1.25rem clamp(1.25rem, 3vw, 2.5rem)",
       lineHeight: "30px",
     },
     todoItem: {
       fontWeight: "bold",
-      fontSize: "14px",
+      fontSize: "clamp(0.875rem, 1,5vw, 1.25rem",
       lineHeight: "21px",
     },
     fontFamily: "Montserrat",

@@ -42,7 +42,10 @@ function TodoItem(todoItemProps: TodoItemProps) {
   return (
     <Box
       sx={{
-        gap: 2,
+        aspectRatio: "4/3",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
         py: 2,
         px: 3,
         border: `1px solid ${borderColor}`,
@@ -59,6 +62,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
             <Checkbox
               checked={completed}
               onChange={() => onToggle(id)}
+              slotProps={{ input: { "aria-label": `Mark "${title}" as ${completed ? "incomplete" : "complete"}` } }}
               sx={{
                 color: mainColor,
                 transition: "color 0.15s ease-in-out",
@@ -101,13 +105,15 @@ function TodoItem(todoItemProps: TodoItemProps) {
               {createdAt}
             </Typography>
           </Box>
-          <Box sx={{ backgroundColor: mainBackground, borderRadius: 2 }}>
-            <IconButton sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} onClick={() => onEdit(id, title)}>
+          <Box sx={{ backgroundColor: mainBackground, borderRadius: 2, }}>
+            <Box sx={{ display: "flex", gap: 1, alignContent: "center", flexWrap: "wrap" }}>
+            <IconButton aria-label={`Edit task: ${title}`} sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} onClick={() => onEdit(id, title)}>
               <EditIcon />
             </IconButton>
-            <IconButton sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} onClick={() => onDelete(id)}>
+            <IconButton aria-label={`Delete task: ${title}`} sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} onClick={() => onDelete(id)}>
               <DeleteIcon />
             </IconButton>
+            </Box>
           </Box>
         </Stack>
       </Stack>
