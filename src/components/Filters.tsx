@@ -9,7 +9,6 @@ function Filters({
   selectedFilter: string;
 }) {
   const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
-  console.log(isMdDown);
   return (
     <Grid container spacing={2} sx={{ width: { md: "auto" } }}>
       {filtersArray.map((filter: any) => (

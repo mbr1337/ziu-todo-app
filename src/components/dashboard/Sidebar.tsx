@@ -10,6 +10,7 @@ import {
   Toolbar,
   ListItemIcon,
   useMediaQuery,
+  ButtonBase,
 } from "@mui/material";
 import Logo from "./Logo";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -27,8 +28,18 @@ const navItems = [
 import theme from "../../theme/theme";
 import type { SidebarProps } from "../../interfaces/dashboard.interfaces";
 
-function Sidebar({ drawerOpen, toggleDrawer }: SidebarProps) {
+function Sidebar({
+  drawerOpen,
+  toggleDrawer,
+  openMultiStepForm,
+}: SidebarProps) {
   const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
+
+  const openUserMultiStepForm = () => {
+    if (openMultiStepForm && typeof openMultiStepForm === "function") {
+      openMultiStepForm();
+    }
+  };
 
   const drawerContent = (
     <>
@@ -58,12 +69,32 @@ function Sidebar({ drawerOpen, toggleDrawer }: SidebarProps) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ p: 2, display: "flex", alignItems: "center", gap: 1 }}>
-        <Avatar sx={{ width: 36, height: 36, bgcolor: "primary.dark" }}>
-          U
-        </Avatar>
-        <Typography variant="body2">Użytkownik</Typography>
-      </Box>
+      <ButtonBase
+        onClick={openUserMultiStepForm}
+        sx={{
+          width: "100%",
+          borderRadius: 1,
+          display: "flex",
+          justifyContent: "flex-start",
+          textAlign: "left",
+          transition: "all 0.25s ease-in-out",
+          "&:hover": {
+            boxShadow: "0 0 4px 2px rgba(0, 0, 0, 0.2)",
+          },
+        }}>
+        <Box
+          sx={{
+            p: 2,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}>
+          <Avatar sx={{ width: 36, height: 36, bgcolor: "primary.dark" }}>
+            U
+          </Avatar>
+          <Typography variant="body2">Użytkownik</Typography>
+        </Box>
+      </ButtonBase>
     </>
   );
 

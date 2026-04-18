@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import Sidebar from "./Sidebar";
 import AppHeader from "./AppHeader";
 import StatsGrid from "./StatsGrid";
 import { useState } from "react";
+import MultiStepForm from "./MultiStepForm";
 
 const DRAWER_WIDTH = 240;
 
@@ -12,11 +13,19 @@ type DashboardLayoutProps = {
 
 function DashboardLayout({ children }: DashboardLayoutProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [openMultiStepForm, setOpenMultiStepForm] = useState(false);
 
+  const openUserMultiStepForm = () => {
+    setOpenMultiStepForm(true);
+  };
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
   return (
     <Box sx={{ display: "flex" }}>
-      <Sidebar drawerOpen={drawerOpen} toggleDrawer={toggleDrawer} />
+      <Sidebar
+        drawerOpen={drawerOpen}
+        toggleDrawer={toggleDrawer}
+        openMultiStepForm={openUserMultiStepForm}
+      />
       <Box
         sx={{
           flexGrow: 1,
@@ -28,6 +37,25 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
           {children}
         </Box>
       </Box>
+
+      <Modal
+        open={openMultiStepForm}
+        onClose={() => setOpenMultiStepForm(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            minWidth: 300,
+            width: "50%",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}>
+          <MultiStepForm onClose={() => setOpenMultiStepForm(false)} />
+        </Box>
+      </Modal>
     </Box>
   );
 }

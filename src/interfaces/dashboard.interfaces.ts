@@ -11,4 +11,5 @@ export interface StatsCardProps {
 export interface SidebarProps {
   drawerOpen?: boolean;
   toggleDrawer?: () => void;
+  openMultiStepForm?: () => void;
 }
