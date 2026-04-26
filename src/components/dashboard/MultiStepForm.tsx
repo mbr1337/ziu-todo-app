@@ -70,11 +70,14 @@ export default function MultiStepForm({ onClose }: Props) {
 
   return (
     <Box
-      component="main"
+      component="section"
       aria-label="Formularz rejestracji"
       sx={{ position: "relative" }}>
       <Backdrop
         open={success}
+        role="status"
+        aria-live="assertive"
+        aria-atomic="true"
         sx={{
           position: "absolute",
           zIndex: (theme) => theme.zIndex.modal + 1,
@@ -160,6 +163,7 @@ export default function MultiStepForm({ onClose }: Props) {
       </Box>
 
       <Typography
+        id="multistep-form-title"
         component="h2"
         variant="h6"
         tabIndex={-1}

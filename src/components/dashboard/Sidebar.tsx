@@ -4,6 +4,7 @@ import {
   Typography,
   Avatar,
   List,
+  ListItem,
   ListItemButton,
   ListItemText,
   Divider,
@@ -49,28 +50,32 @@ function Sidebar({
 
       <Divider sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
 
-      <List>
-        {navItems.map((item) => (
-          <ListItemButton
-            key={item.label}
-            component="a"
-            href={item.path}
-            sx={{
-              "&.active": {
-                bgcolor: "rgba(255,255,255,0.2)",
-                color: "white",
-              },
-            }}>
-            <ListItemIcon>{item.icon && <item.icon />}</ListItemIcon>
-            <ListItemText primary={item.label} />
-          </ListItemButton>
-        ))}
-      </List>
+      <Box component="nav" aria-label="Nawigacja główna">
+        <List>
+          {navItems.map((item) => (
+            <ListItem key={item.label} disablePadding>
+              <ListItemButton
+                component="a"
+                href={item.path}
+                sx={{
+                  "&.active": {
+                    bgcolor: "rgba(255,255,255,0.2)",
+                    color: "white",
+                  },
+                }}>
+                <ListItemIcon aria-hidden="true">{item.icon && <item.icon />}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
 
       <Box sx={{ flexGrow: 1 }} />
 
       <ButtonBase
         onClick={openUserMultiStepForm}
+        aria-label="Otwórz profil użytkownika"
         sx={{
           width: "100%",
           borderRadius: 1,
@@ -80,6 +85,11 @@ function Sidebar({
           transition: "all 0.25s ease-in-out",
           "&:hover": {
             boxShadow: "0 0 4px 2px rgba(0, 0, 0, 0.2)",
+          },
+          "&:focus-visible": {
+            outline: "2px solid",
+            outlineColor: "primary.main",
+            outlineOffset: "2px",
           },
         }}>
         <Box

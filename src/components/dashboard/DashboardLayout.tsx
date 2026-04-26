@@ -40,7 +40,8 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
 
       <Modal
         open={openMultiStepForm}
-        onClose={() => setOpenMultiStepForm(false)}>
+        onClose={() => setOpenMultiStepForm(false)}
+        aria-labelledby="multistep-form-title">
         <Box
           sx={{
             position: "absolute",

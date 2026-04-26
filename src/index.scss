@@ -20,6 +20,23 @@ body {
 
 }
 
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #0043ff;
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 9999;
+  font-weight: bold;
+  text-decoration: none;
+  transition: top 0.2s;
+
+  &:focus {
+    top: 0;
+  }
+}
+
 @media print {
   .MuiDrawer-root,
   .MuiDrawer-paper,

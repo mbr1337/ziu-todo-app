@@ -5,8 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/theme.js";
 import { TodoProvider } from "./context/TodoContext";
+import App from "./App.js";
 
-const App = lazy(() => import("./App.jsx"));
 
 const router = createBrowserRouter([
   {

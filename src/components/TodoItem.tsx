@@ -41,6 +41,8 @@ function TodoItem(todoItemProps: TodoItemProps) {
 
   return (
     <Box
+      component="article"
+      aria-label={`${title}${priority ? `, priorytet: ${priority}` : ""}, ${completed ? "ukończone" : "aktywne"}`}
       sx={{
         aspectRatio: "4/3",
         display: "flex",
@@ -80,6 +82,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
             </Typography>
           </Box>
           <Badge
+            aria-hidden="true"
             badgeContent={priority}
             sx={{
               "& .MuiBadge-badge": {
@@ -100,8 +103,11 @@ function TodoItem(todoItemProps: TodoItemProps) {
           justifyContent={"space-between"}
           gap={1}>
           <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
-            <CalendarMonthIcon sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} />
+            <CalendarMonthIcon aria-hidden="true" sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} />
             <Typography variant={"todoItem"} sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }}>
+              <span style={{ position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", borderWidth: 0 }}>
+                Utworzono:
+              </span>
               {createdAt}
             </Typography>
           </Box>

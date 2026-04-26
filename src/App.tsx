@@ -146,15 +146,23 @@ function App() {
   };
 
   return (
-    <Container maxWidth={"lg"} sx={{ py: 2 }} component={"main"}>
+    <>
+    <a href="#main-content" className="skip-link">
+      Przejdź do treści głównej
+    </a>
+    <Container maxWidth={"lg"} sx={{ py: 2 }} component={"main"} id="main-content" tabIndex={-1}>
       <DashboardLayout>
         <Stack gap={4} mt={4}>
           <Search />
           <Filters filtersArray={filters} selectedFilter={selectedFilter} />
-          <Typography variant="h5">Todos: {filteredTodos.length}</Typography>
+          <Typography variant="h5" aria-live="polite" aria-atomic="true">
+            Zadania: {filteredTodos.length}
+          </Typography>
           <Grid
             container
             spacing={2}
+            role="list"
+            aria-label="Lista zadań"
             sx={{
               border: `2px solid ${theme.palette.background.border}`,
               borderRadius: "12px",
@@ -164,7 +172,7 @@ function App() {
             }}>
             <AnimatePresence>
               {todos.length === 0 && (
-                <MotionGridItem size={{ xs: 12 }}>
+                <MotionGridItem size={{ xs: 12 }} role="listitem">
                   <Typography
                     color="text.secondary"
                     textAlign="center"
@@ -176,6 +184,7 @@ function App() {
               {filteredTodos.map((todo) => (
                 <MotionGridItem
                   size={{ xs: 12, sm: 6, lg: 4 }}
+                  role="listitem"
                   key={todo.id}
                   initial={{ opacity: 0, y: -12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -215,7 +224,7 @@ function App() {
             }}
             role="button">
             <AddIcon aria-hidden sx={{ color: theme.palette.blackAndWhite.secondary, mr: 0.5 }} />
-            <Typography variant="body1">Add New Post</Typography>
+            <Typography variant="body1">Dodaj nowe zadanie</Typography>
           </Stack>
         </Stack>
 
@@ -223,6 +232,7 @@ function App() {
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           slots={{ transition: SlideUp }}
+          aria-labelledby="new-task-heading"
           maxWidth="sm"
           fullWidth>
           <AddTodoForm
@@ -235,14 +245,15 @@ function App() {
           open={editModalOpen}
           onClose={() => setEditModalOpen(false)}
           slots={{ transition: SlideUp }}
+          aria-labelledby="edit-dialog-title"
           disableRestoreFocus
           maxWidth="sm"
           fullWidth>
-          <DialogTitle>Edit Task</DialogTitle>
+          <DialogTitle id="edit-dialog-title">Edytuj zadanie</DialogTitle>
           <DialogContent>
             <Box sx={{ pt: 1 }}>
               <TextField
-                label="Title"
+                label="Tytuł"
                 variant="outlined"
                 fullWidth
                 value={editTitle}
@@ -256,10 +267,10 @@ function App() {
               color="secondary"
               variant="contained"
               onClick={() => setEditModalOpen(false)}>
-              Cancel
+              Anuluj
             </Button>
             <Button color="primary" variant="contained" onClick={confirmEdit}>
-              Save
+              Zapisz
             </Button>
           </DialogActions>
         </Dialog>
@@ -268,29 +279,33 @@ function App() {
           open={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
           slots={{ transition: CustomFade }}
+          aria-labelledby="delete-dialog-title"
           disableRestoreFocus
           maxWidth="sm"
           fullWidth>
-          <DialogTitle>Are you sure you want to delete this task?</DialogTitle>
+          <DialogTitle id="delete-dialog-title">
+            Czy na pewno chcesz usunąć to zadanie?
+          </DialogTitle>
           <DialogActions sx={{ justifyContent: "space-between" }}>
             <Button
               color="secondary"
               variant="contained"
               sx={{ px: 4, py: 1, borderRadius: 1.5 }}
               onClick={() => setDeleteModalOpen(false)}>
-              Cancel
+              Anuluj
             </Button>
             <Button
               color="error"
               variant="contained"
               sx={{ px: 4, py: 1, borderRadius: 1.5 }}
               onClick={confirmDelete}>
-              Delete
+              Usuń
             </Button>
           </DialogActions>
         </Dialog>
       </DashboardLayout>
     </Container>
+    </>
   );
 }
 

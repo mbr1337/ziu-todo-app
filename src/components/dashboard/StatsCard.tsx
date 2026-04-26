@@ -9,7 +9,7 @@ export default function StatsCard({
   bgColor,
 }: StatsCardProps) {
   return (
-    <Card sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+    <Card component="article" aria-label={`${title}: ${value}`} sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
       <CardContent sx={{ flexGrow: 1 }}>
         <Box
           sx={{
@@ -28,7 +28,7 @@ export default function StatsCard({
             </Typography>
           </Box>
 
-          <Avatar sx={{ bgcolor: bgColor, color, width: 48, height: 48 }}>
+          <Avatar aria-hidden="true" sx={{ bgcolor: bgColor, color, width: 48, height: 48 }}>
             <Icon />
           </Avatar>
         </Box>

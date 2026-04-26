@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
@@ -13,6 +13,7 @@ export default function StatsGrid() {
   const pending = state.todos.filter((t) => !t.completed).length;
 
   return (
+    <Box component="section" aria-label="Statystyki zadań" aria-live="polite" aria-atomic="true">
     <Grid container spacing={3}>
       <Grid size={{ xs: 12, sm: 4 }} sx={{ display: "flex" }}>
         <StatsCard
@@ -42,5 +43,6 @@ export default function StatsGrid() {
         />
       </Grid>
     </Grid>
+    </Box>
   );
 }
