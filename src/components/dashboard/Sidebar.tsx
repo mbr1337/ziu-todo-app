@@ -17,6 +17,7 @@ import Logo from "./Logo";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import TaskIcon from "@mui/icons-material/Task";
 import SettingsIcon from "@mui/icons-material/Settings";
+import StorageIcon from '@mui/icons-material/Storage';
 
 const DRAWER_WIDTH = 240;
 
@@ -24,10 +25,12 @@ const navItems = [
   { label: "Dashboard", icon: DashboardIcon, path: "/" },
   { label: "Zadania", icon: TaskIcon, path: "/todos" },
   { label: "Ustawienia", icon: SettingsIcon, path: "/settings" },
+  { label: "The movie database", icon:  StorageIcon, path: "/movies" },
 ];
 
 import theme from "../../theme/theme";
 import type { SidebarProps } from "../../interfaces/dashboard.interfaces";
+import { Link } from "react-router-dom";
 
 function Sidebar({
   drawerOpen,
@@ -55,8 +58,8 @@ function Sidebar({
           {navItems.map((item) => (
             <ListItem key={item.label} disablePadding>
               <ListItemButton
-                component="a"
-                href={item.path}
+                component={Link}
+                to={item.path}
                 sx={{
                   "&.active": {
                     bgcolor: "rgba(255,255,255,0.2)",
