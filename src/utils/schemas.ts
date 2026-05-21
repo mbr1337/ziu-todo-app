@@ -27,7 +27,7 @@ export const step2Schema = z.object({
     email: z.boolean(),
     push: z.boolean(),
   }),
-  newsletter: z.boolean().default(false),
+  newsletter: z.boolean(),
 });
 
 export type Step2Data = z.infer<typeof step2Schema>;

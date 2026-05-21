@@ -12,7 +12,6 @@ function Search() {
       placeholder="Szukaj zadań..."
       slotProps={{
         input: {
-          "aria-label": "Szukaj zadań",
           sx: { p: 1, backgroundColor: theme.palette.background.searchBackground, borderRadius: 2 },
           startAdornment: (
             <InputAdornment position="start">
@@ -22,6 +21,9 @@ function Search() {
               />
             </InputAdornment>
           ),
+        },
+        htmlInput: {
+          "aria-label": "Szukaj zadań",
         },
       }}
     />

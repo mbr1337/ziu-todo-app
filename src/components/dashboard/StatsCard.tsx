@@ -23,7 +23,7 @@ export default function StatsCard({
               {title}
             </Typography>
 
-            <Typography variant="h4" fontWeight={700}>
+            <Typography variant="h4" component={"h2"} fontWeight={700}>
               {value}
             </Typography>
           </Box>

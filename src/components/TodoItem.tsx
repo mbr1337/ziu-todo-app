@@ -38,6 +38,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
       : colors.primary
     : undefined;
   const mainBackground = colors ? colors.background : undefined;
+  const dateColor = mainColor ?? (completed ? theme.palette.text.disabled : undefined);
 
   return (
     <Box
@@ -87,7 +88,7 @@ function TodoItem(todoItemProps: TodoItemProps) {
             sx={{
               "& .MuiBadge-badge": {
                 backgroundColor: mainColor,
-                color: "#fff",
+                color: completed ? "#1a1a1a" : "#fff",
                 position: "relative",
                 transform: "none",
                 p: 1.75,
@@ -103,8 +104,8 @@ function TodoItem(todoItemProps: TodoItemProps) {
           justifyContent={"space-between"}
           gap={1}>
           <Box sx={{ display: "flex", alignItems: "flex-end", gap: 1 }}>
-            <CalendarMonthIcon aria-hidden="true" sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }} />
-            <Typography variant={"todoItem"} sx={{ color: mainColor, transition: "color 0.15s ease-in-out" }}>
+            <CalendarMonthIcon aria-hidden="true" sx={{ color: dateColor, transition: "color 0.15s ease-in-out" }} />
+            <Typography variant={"todoItem"} sx={{ color: dateColor, transition: "color 0.15s ease-in-out" }}>
               <span style={{ position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", borderWidth: 0 }}>
                 Utworzono:
               </span>

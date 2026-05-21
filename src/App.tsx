@@ -155,7 +155,7 @@ function App() {
         <Stack gap={4} mt={4}>
           <Search />
           <Filters filtersArray={filters} selectedFilter={selectedFilter} />
-          <Typography variant="h5" aria-live="polite" aria-atomic="true">
+          <Typography variant="h5" component={"h3"} aria-live="polite" aria-atomic="true">
             Zadania: {filteredTodos.length}
           </Typography>
           <Grid

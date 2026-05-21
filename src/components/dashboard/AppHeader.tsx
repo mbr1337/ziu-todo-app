@@ -36,7 +36,7 @@ export default function AppHeader({ toggleDrawer }: SidebarProps) {
           borderRadius: 2,
         }}>
         <Toolbar>
-          <Typography variant="h6" fontWeight={600} sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component={"h1"} fontWeight={600} sx={{ flexGrow: 1 }}>
             Dashboard
           </Typography>
           <IconButton color="inherit" aria-label="toggle theme">
