@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Card,
   CardMedia,
@@ -13,6 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import StarIcon from "@mui/icons-material/Star";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
+import { gridItemVariants } from "../../animations/variants";
 import type { Movie } from "../../hooks/useFetchMovies";
 
 const IMG_BASE = "https://image.tmdb.org/t/p/w500";
@@ -24,6 +26,7 @@ interface MovieCardProps {
 }
 
 export function MovieCard({ movie, isFavorite, toggleFavorite }: MovieCardProps) {
+  const shouldReduce = useReducedMotion();
   const [optimisticFav, setOptimisticFav] = useState<boolean | null>(null);
   const displayedFav = optimisticFav ?? isFavorite(movie.id);
 
@@ -40,77 +43,81 @@ export function MovieCard({ movie, isFavorite, toggleFavorite }: MovieCardProps)
   const year = movie.release_date?.slice(0, 4);
 
   return (
-    <Card
-      component="article"
-      sx={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        transition: "box-shadow 0.2s ease-in-out",
-        "&:hover": { boxShadow: 6 },
-      }}>
-      {movie.poster_path ? (
-        <CardMedia
-          component="img"
-          image={`${IMG_BASE}${movie.poster_path}`}
-          alt={movie.title}
-          sx={{ aspectRatio: "2/3", objectFit: "cover" }}
-        />
-      ) : (
-        <Box
-          aria-hidden="true"
-          sx={{
-            aspectRatio: "2/3",
-            bgcolor: "grey.100",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}>
-          <ImageNotSupportedIcon sx={{ fontSize: 48, color: "grey.400" }} />
-        </Box>
-      )}
-
-      <CardContent sx={{ flexGrow: 1, pb: 0 }}>
-        <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-          {movie.title}
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
-          {year && (
-            <Typography variant="caption" color="text.secondary">
-              {year}
-            </Typography>
-          )}
-          <Chip
-            icon={<StarIcon sx={{ fontSize: "12px !important", color: "warning.main" }} aria-hidden="true" />}
-            label={movie.vote_average.toFixed(1)}
-            size="small"
-            sx={{ height: 20, fontSize: 11 }}
+    <motion.div
+      variants={gridItemVariants}
+      whileHover={{ scale: shouldReduce ? 1 : 1.03 }}
+      style={{ height: "100%", transformOrigin: "center" }}>
+      <Card
+        component="article"
+        sx={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          transition: "box-shadow 0.2s ease-in-out",
+          "&:hover": { boxShadow: 6 },
+        }}>
+        {movie.poster_path ? (
+          <CardMedia
+            component="img"
+            image={`${IMG_BASE}${movie.poster_path}`}
+            alt={movie.title}
+            sx={{ aspectRatio: "2/3", objectFit: "cover" }}
           />
-        </Box>
-      </CardContent>
+        ) : (
+          <Box
+            aria-hidden="true"
+            sx={{
+              aspectRatio: "2/3",
+              bgcolor: "grey.100",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+            <ImageNotSupportedIcon sx={{ fontSize: 48, color: "grey.400" }} />
+          </Box>
+        )}
 
-      <CardActions sx={{ justifyContent: "flex-end", pt: 0 }}>
-        <IconButton
-          onClick={handleToggle}
-          aria-label={displayedFav ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
-          aria-pressed={displayedFav}
-          size="small"
-          sx={{
-            color: displayedFav ? "error.main" : "action.active",
-            transition: "color 0.15s ease-in-out",
-            "&:focus-visible": {
-              outline: "2px solid",
-              outlineColor: "primary.main",
-              outlineOffset: "2px",
-            },
-          }}>
-          {displayedFav ? (
-            <FavoriteIcon fontSize="small" />
-          ) : (
-            <FavoriteBorderIcon fontSize="small" />
-          )}
-        </IconButton>
-      </CardActions>
-    </Card>
+        <CardContent sx={{ flexGrow: 1, pb: 0 }}>
+          <Typography variant="subtitle2" fontWeight={600} gutterBottom>
+            {movie.title}
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+            {year && (
+              <Typography variant="caption" color="text.secondary">
+                {year}
+              </Typography>
+            )}
+            <Chip
+              icon={<StarIcon sx={{ fontSize: "12px !important", color: "warning.main" }} aria-hidden="true" />}
+              label={movie.vote_average.toFixed(1)}
+              size="small"
+              sx={{ height: 20, fontSize: 11 }}
+            />
+          </Box>
+        </CardContent>
+
+        <CardActions sx={{ justifyContent: "flex-end", pt: 0 }}>
+          <IconButton
+            onClick={handleToggle}
+            aria-label={displayedFav ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+            aria-pressed={displayedFav}
+            size="small"
+            sx={{
+              color: displayedFav ? "error.main" : "action.active",
+              transition: "color 0.15s ease-in-out",
+              "&:focus-visible": {
+                outline: "2px solid #0043FF",
+                outlineOffset: "2px",
+              },
+            }}>
+            {displayedFav ? (
+              <FavoriteIcon fontSize="small" />
+            ) : (
+              <FavoriteBorderIcon fontSize="small" />
+            )}
+          </IconButton>
+        </CardActions>
+      </Card>
+    </motion.div>
   );
 }

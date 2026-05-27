@@ -10,20 +10,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import NotFound from "./components/NotFound.js";
 import MovieMain from "./components/MovieDB/MovieMain.js";
+import { RootLayout } from "./components/RootLayout.js";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    element: <RootLayout />,
+    children: [
+      { path: "/", element: <App /> },
+      { path: "/movies", element: <MovieMain /> },
+      { path: "*", element: <NotFound /> },
+    ],
   },
-  {
-    path: "/movies",
-    element: <MovieMain />,
-  },
-  {
-    path: '*',
-    element: <NotFound />,
-  }
 ]);
 
 const queryClient = new QueryClient({
