@@ -12,4 +12,5 @@ export interface SidebarProps {
   drawerOpen?: boolean;
   toggleDrawer?: () => void;
   openMultiStepForm?: () => void;
+  sidebarExtra?: React.ReactNode;
 }

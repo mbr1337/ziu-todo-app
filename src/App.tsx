@@ -60,6 +60,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { motion, AnimatePresence } from "framer-motion";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import { useTodoContext } from "./context/TodoContext";
+import { plausible } from "./utils/analytics";
 
 const MotionGridItem = motion.create(Grid);
 
@@ -205,8 +206,8 @@ function App() {
             direction={"row"}
             justifyContent={"center"}
             alignItems={"center"}
-            onClick={() => setIsModalOpen(true)}
-            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setIsModalOpen(true)}
+            onClick={() => { plausible.trackEvent("Add Todo"); setIsModalOpen(true); }}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { plausible.trackEvent("Add Todo"); setIsModalOpen(true); } }}
             tabIndex={0}
             aria-label="Add new task"
             sx={{

@@ -13,22 +13,21 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { useInfiniteMovies } from "../../hooks/useInfiniteMovies";
 import { useDebounce } from "../../hooks/useDebounce";
-import { useFavorites } from "../../hooks/useFavorites";
-import { useToasts } from "../../hooks/useToasts";
 import { gridContainerVariants } from "../../animations/variants";
 import { MovieCard } from "./MovieCard";
 import { SkeletonCard } from "./SkeletonCard";
 import { ErrorBanner } from "./ErrorBanner";
 import { EmptyState } from "./EmptyState";
-import { FavoritesList } from "./FavoritesList";
-import { ToastContainer } from "./ToastContainer";
 import type { Movie } from "../../hooks/useFetchMovies";
 
-export function MovieBrowser() {
+interface MovieBrowserProps {
+  isFavorite: (id: number) => boolean;
+  toggleFavorite: (movie: Movie) => void;
+}
+
+export function MovieBrowser({ isFavorite, toggleFavorite }: MovieBrowserProps) {
   const [searchInput, setSearchInput] = useState("");
   const debouncedQuery = useDebounce(searchInput, 400);
-  const { favorites, isFavorite, toggleFavorite, reorderFavorites } = useFavorites();
-  const { toasts, addToast, removeToast } = useToasts();
 
   const {
     data,
@@ -60,19 +59,6 @@ export function MovieBrowser() {
     return () => observer.disconnect();
   }, [handleObserver]);
 
-  const handleToggleFavorite = useCallback(
-    (movie: Movie) => {
-      const adding = !isFavorite(movie.id);
-      toggleFavorite(movie);
-      addToast(
-        adding
-          ? `Dodano „${movie.title}" do ulubionych`
-          : `Usunięto „${movie.title}" z ulubionych`
-      );
-    },
-    [isFavorite, toggleFavorite, addToast]
-  );
-
   const movies = data?.pages.flatMap((p) => p.results) ?? [];
 
   return (
@@ -97,12 +83,6 @@ export function MovieBrowser() {
           }
         />
       </FormControl>
-
-      <FavoritesList
-        favorites={favorites}
-        onReorder={reorderFavorites}
-        onRemove={handleToggleFavorite}
-      />
 
       {isError ? (
         <ErrorBanner
@@ -139,7 +119,7 @@ export function MovieBrowser() {
                   <MovieCard
                     movie={movie}
                     isFavorite={isFavorite}
-                    toggleFavorite={handleToggleFavorite}
+                    toggleFavorite={toggleFavorite}
                   />
                 </Grid>
               ))}
@@ -172,8 +152,6 @@ export function MovieBrowser() {
       )}
 
       <div ref={sentinelRef} style={{ height: 1 }} aria-hidden="true" />
-
-      <ToastContainer toasts={toasts} onRemove={removeToast} />
     </Box>
   );
 }

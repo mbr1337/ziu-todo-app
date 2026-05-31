@@ -4,6 +4,7 @@ import AppHeader from "./AppHeader";
 import StatsGrid from "./StatsGrid";
 import { useState } from "react";
 import MultiStepForm from "./MultiStepForm";
+import { plausible } from "../../utils/analytics";
 
 const DRAWER_WIDTH = 240;
 
@@ -16,6 +17,7 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
   const [openMultiStepForm, setOpenMultiStepForm] = useState(false);
 
   const openUserMultiStepForm = () => {
+    plausible.trackEvent("Form Open", { props: { form: "registration" } });
     setOpenMultiStepForm(true);
   };
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);

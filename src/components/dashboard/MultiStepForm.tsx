@@ -5,6 +5,7 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import type { Step1Data, Step2Data } from "../../utils/schemas";
+import { plausible } from "../../utils/analytics";
 
 const STEP_TITLES = ["Dane osobowe", "Preferencje", "Potwierdzenie"];
 
@@ -45,17 +46,20 @@ export default function MultiStepForm({ onClose }: Props) {
   }, [success, onClose]);
 
   const handleStep1Complete = (data: Step1Data) => {
+    plausible.trackEvent("Form Next Step", { props: { step: "1" } });
     setStep1Data(data);
     setEmailError(undefined);
     setCurrentStep(2);
   };
 
   const handleStep2Complete = (data: Step2Data) => {
+    plausible.trackEvent("Form Next Step", { props: { step: "2" } });
     setStep2Data(data);
     setCurrentStep(3);
   };
 
   const handleFinalSubmit = async () => {
+    plausible.trackEvent("Form Submit", { props: { form: "registration" } });
     setServerError(undefined);
     const status = await simulateApiCall();
     if (status === 409) {

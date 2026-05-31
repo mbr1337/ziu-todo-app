@@ -1,0 +1,77 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script type="module">
+  async function loadCSV(path) {
+    const text = await fetch(path).then((r) => r.text());
+
+    return Papa.parse(text, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+    }).data;
+  }
+
+  const data = await loadCSV("./sessions_lab12.csv");
+
+  function bounceRateByPage(data) {
+    const stats = {};
+
+    for (const row of data) {
+      if (!stats[row.page]) {
+        stats[row.page] = { total: 0, bounced: 0 };
+      }
+
+      stats[row.page].total++;
+
+      if (row.bounce === true || row.bounce === "true") {
+        stats[row.page].bounced++;
+      }
+    }
+
+    return Object.entries(stats)
+      .map(([page, s]) => ({
+        page,
+        bounceRate: ((s.bounced / s.total) * 100).toFixed(1) + "%",
+      }))
+      .sort((a, b) => parseFloat(b.bounceRate) - parseFloat(a.bounceRate));
+  }
+  console.table(bounceRateByPage(data));
+
+  function formDropOff(data) {
+    const formRows = data.filter(
+      (r) => r.page === "form" && r.form_step_reached
+    );
+
+    const total = formRows.length;
+    const result = {};
+
+    for (let step = 1; step <= 4; step++) {
+      const reached = formRows.filter(
+        (r) => Number(r.form_step_reached) >= step
+      ).length;
+
+      result[`Krok ${step}`] = `${((reached / total) * 100).toFixed(
+        1
+      )}% (${reached}/${total})`;
+    }
+
+    return result;
+  }
+
+  console.table(formDropOff(data));
+
+  function topClicks(data, n = 10) {
+    const freq = {};
+
+    for (const row of data) {
+      if (row.element_clicked)
+        freq[row.element_clicked] = (freq[row.element_clicked] || 0) + 1;
+    }
+
+    return Object.entries(freq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, n)
+      .map(([element, count]) => ({ element, count }));
+  }
+
+  console.table(topClicks(data));
+</script>

@@ -36,6 +36,7 @@ function Sidebar({
   drawerOpen,
   toggleDrawer,
   openMultiStepForm,
+  sidebarExtra,
 }: SidebarProps) {
   const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -73,6 +74,15 @@ function Sidebar({
           ))}
         </List>
       </Box>
+
+      {sidebarExtra && (
+        <>
+          <Divider sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
+          <Box sx={{ px: 1, py: 1.5, overflowY: "auto" }}>
+            {sidebarExtra}
+          </Box>
+        </>
+      )}
 
       <Box sx={{ flexGrow: 1 }} />
 

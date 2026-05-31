@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   Card,
@@ -27,18 +27,11 @@ interface MovieCardProps {
 
 export function MovieCard({ movie, isFavorite, toggleFavorite }: MovieCardProps) {
   const shouldReduce = useReducedMotion();
-  const [optimisticFav, setOptimisticFav] = useState<boolean | null>(null);
-  const displayedFav = optimisticFav ?? isFavorite(movie.id);
+  const displayedFav = isFavorite(movie.id);
 
   const handleToggle = useCallback(() => {
-    setOptimisticFav(!displayedFav);
-    try {
-      toggleFavorite(movie);
-      setOptimisticFav(null);
-    } catch {
-      setOptimisticFav(null);
-    }
-  }, [displayedFav, toggleFavorite, movie]);
+    toggleFavorite(movie);
+  }, [toggleFavorite, movie]);
 
   const year = movie.release_date?.slice(0, 4);
 

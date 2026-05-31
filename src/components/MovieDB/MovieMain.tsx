@@ -1,15 +1,37 @@
 import { Box, Modal } from "@mui/material";
+import { useState, useCallback } from "react";
 import Sidebar from "../dashboard/Sidebar";
 import AppHeader from "../dashboard/AppHeader";
-import { useState } from "react";
 import MultiStepForm from "../dashboard/MultiStepForm";
 import { MovieBrowser } from "./MovieBrowser";
+import { FavoritesList } from "./FavoritesList";
+import { ToastContainer } from "./ToastContainer";
+import { useFavorites } from "../../hooks/useFavorites";
+import { useToasts } from "../../hooks/useToasts";
+import type { Movie } from "../../hooks/useFetchMovies";
+import { plausible } from "../../utils/analytics";
 
 const DRAWER_WIDTH = 240;
 
 function MovieMain() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [openMultiStepForm, setOpenMultiStepForm] = useState(false);
+
+  const { favorites, isFavorite, toggleFavorite, reorderFavorites } = useFavorites();
+  const { toasts, addToast, removeToast } = useToasts();
+
+  const handleToggleFavorite = useCallback(
+    (movie: Movie) => {
+      const adding = !isFavorite(movie.id);
+      toggleFavorite(movie);
+      addToast(
+        adding
+          ? `Dodano „${movie.title}" do ulubionych`
+          : `Usunięto „${movie.title}" z ulubionych`
+      );
+    },
+    [isFavorite, toggleFavorite, addToast]
+  );
 
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
@@ -22,7 +44,14 @@ function MovieMain() {
         <Sidebar
           drawerOpen={drawerOpen}
           toggleDrawer={toggleDrawer}
-          openMultiStepForm={() => setOpenMultiStepForm(true)}
+          openMultiStepForm={() => { plausible.trackEvent("Form Open", { props: { form: "registration" } }); setOpenMultiStepForm(true); }}
+          sidebarExtra={
+            <FavoritesList
+              favorites={favorites}
+              onReorder={reorderFavorites}
+              onRemove={handleToggleFavorite}
+            />
+          }
         />
         <Box
           component="main"
@@ -35,10 +64,15 @@ function MovieMain() {
           }}>
           <AppHeader toggleDrawer={toggleDrawer} />
           <Box sx={{ p: 3 }}>
-            <MovieBrowser />
+            <MovieBrowser
+              isFavorite={isFavorite}
+              toggleFavorite={handleToggleFavorite}
+            />
           </Box>
         </Box>
       </Box>
+
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
 
       <Modal
         open={openMultiStepForm}
